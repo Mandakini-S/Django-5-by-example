@@ -1,26 +1,21 @@
-from django.shortcuts import render
-from django.http import Http404
-from django.shortcuts import get_object_or_404
- 
+from rest_framework import generics
 from .models import Post
-def post_list(request):
- posts = Post.published.all()
- return render(
- request,
-'blog/post/list.html',
-   {'posts': posts}
- )
- 
-def post_detail(request, year, month, day, post):
-    post = get_object_or_404(
-      Post,
-      status=Post.Status.PUBLISHED,
-      slug=post,
-      publish__year=year,
-      publish__month=month,
-      publish__day=day)
-    return render(
-        request,
-        'blog/post/detail.html',
-        {'post': post}
- )
+from .serializers import PostSerializer
+
+class PostList(generics.ListAPIView):
+    queryset = Post.published.all()  # Fetch published posts
+    serializer_class = PostSerializer  # Use your serializer class
+
+class PostDetail(generics.RetrieveAPIView):
+    queryset = Post.published.all()  # Fetch published posts
+    serializer_class = PostSerializer  # Use your serializer class
+    lookup_field = 'slug'  # Field to lookup
+    lookup_url_kwarg = 'post'  # URL keyword argument
+
+    def get_queryset(self):
+        # Filters based on publish date and slug to return a specific post
+        return super().get_queryset().filter(
+            publish__year=self.kwargs['year'],
+            publish__month=self.kwargs['month'],
+            publish__day=self.kwargs['day']
+        )
