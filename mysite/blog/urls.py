@@ -1,14 +1,10 @@
 from django.urls import path
-from .views import PostList, PostDetail  # Import your views
+from .views import PostList, PostDetail, post_share  # Import the views
 
 app_name = 'blog'
 
 urlpatterns = [
-    # Post views
-    path('', PostList.as_view(), name='post_list'),  # Use PostList.as_view() for class-based view
-    path(
-        '<int:year>/<int:month>/<int:day>/<slug:post>/',
-        PostDetail.as_view(),  # Use PostDetail.as_view() for class-based view
-        name='post_detail'
-    ),
+    path('', PostList.as_view(), name='post_list'),  
+    path('<int:year>/<int:month>/<int:day>/<slug:post>/', PostDetail.as_view(), name='post_detail'),
+    path('<int:post_id>/share/', post_share, name='post_share'),  # Use post_share as an API endpoint
 ]
