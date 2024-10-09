@@ -26,7 +26,7 @@ class PostDetail(generics.RetrieveAPIView):
 def post_share(request, post_id):
     post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
     if request.method == 'POST':
-        # Assuming EmailPostForm is being used here
+       
         form = EmailPostForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
