@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
     'corsheaders',
+    'taggit',
     'rest_framework',#required for producing JSON format data for products, categories etc
     'rest_framework.authtoken', # required for custom sign up instead using django's in-build sign up
 ]

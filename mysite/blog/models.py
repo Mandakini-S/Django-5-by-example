@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from taggit.managers import TaggableManager
 
 class Post(models.Model):
     class Status(models.TextChoices):
@@ -67,4 +68,4 @@ class Comment(models.Model):
  def __str__(self):
      return f'Comment by {self.name} on {self.post}'
  
- 
+ tags = TaggableManager()
